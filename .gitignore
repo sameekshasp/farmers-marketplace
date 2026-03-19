@@ -1,0 +1,156 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+frontend/package-lock.json
+backend/package-lock.json
+
+# Environment variables (NEVER commit these!)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+backend/.env
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.production.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+pnpm-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Testing
+coverage/
+*.lcov
+.nyc_output
+test-results/
+junit.xml
+
+# Build outputs
+build/
+dist/
+out/
+frontend/build/
+backend/build/
+.next/
+.nuxt/
+
+# Cache directories
+.cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+frontend/node_modules/.cache/
+.npm/
+.yarn/
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.bak
+*.backup
+
+# Database files (local only)
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+
+# Uploads directory (user uploaded files)
+uploads/
+backend/uploads/
+frontend/public/uploads/
+
+# Development utility scripts (not needed in production)
+kill-ports.js
+check-setup.js
+setup-database.bat
+fix-frontend.bat
+restart-frontend.bat
+suppress-warnings.js
+start-clean.bat
+COMPLETE_FIX.bat
+*.bat
+*.sh
+
+# Documentation (keep only essential - README, DEPLOYMENT, HOW_TO_RUN, GIT_SETUP)
+SETUP_GUIDE.md
+TROUBLESHOOTING.md
+MYSQL_SETUP_GUIDE.md
+MYSQL_WORKBENCH_STEPS.md
+DATABASE_SUMMARY.md
+QUICK_START.md
+FRONTEND_ERRORS.md
+FIXES_APPLIED.md
+ALL_FIXES_APPLIED.md
+FINAL_FIXES.md
+CLEANUP_GUIDE.md
+CLEANUP_SUMMARY.md
+PRE_COMMIT_CHECKLIST.md
+.github/CLEANUP_SUMMARY.md
+
+# Cloudinary cache
+.cloudinary/
+
+# Debug files
+debug.log
+error.log
+
+# Lock files (optional - some teams prefer to commit these)
+# Uncomment if you want to exclude lock files
+# yarn.lock
+# pnpm-lock.yaml
+
+# Keep these essential files (explicit whitelist)
+!README.md
+!DEPLOYMENT.md
+!HOW_TO_RUN.md
+!.gitignore
+!vercel.json
+!package.json
+!backend/package.json
+!frontend/package.json
+
+# Keep example env files
+!backend/.env.example
+!frontend/.env.example
+!.env.example
