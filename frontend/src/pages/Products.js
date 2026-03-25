@@ -4,15 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
 import {
   Search,
-  Filter,
   ShoppingCart,
   Star,
   MapPin,
-  ChevronDown,
   Grid,
   List,
-  SlidersHorizontal,
-  X,
 } from 'lucide-react';
 
 import { productsAPI } from '../services/api';
@@ -30,7 +26,6 @@ const Products = () => {
   const [selectedLocation, setSelectedLocation] = useState(searchParams.get('location') || '');
   const [sortBy, setSortBy] = useState('newest');
   const [viewMode, setViewMode] = useState('grid');
-  const [showFilters, setShowFilters] = useState(false);
 
   // Fetch products
   const {
@@ -65,14 +60,14 @@ const Products = () => {
   // Update search params when filters change
   useEffect(() => {
     const params = new URLSearchParams();
-    
+
     if (searchQuery) params.set('search', searchQuery);
     if (selectedCategory) params.set('category', selectedCategory);
     if (priceRange.min) params.set('minPrice', priceRange.min);
     if (priceRange.max) params.set('maxPrice', priceRange.max);
     if (selectedLocation) params.set('location', selectedLocation);
     if (sortBy !== 'newest') params.set('sort', sortBy);
-    
+
     setSearchParams(params);
   }, [searchQuery, selectedCategory, priceRange, selectedLocation, sortBy, setSearchParams]);
 
@@ -186,19 +181,6 @@ const Products = () => {
                 <option value="rating">Highest Rated</option>
               </select>
 
-              {/* Filter Toggle */}
-              <button
-                onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors relative"
-              >
-                <SlidersHorizontal className="h-4 w-4" />
-                <span>Filters</span>
-                {activeFiltersCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-primary-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    {activeFiltersCount}
-                  </span>
-                )}
-              </button>
             </div>
           </div>
         </div>
@@ -206,8 +188,8 @@ const Products = () => {
 
       <div className="container py-6">
         <div className="flex gap-6">
-          {/* Filters Sidebar */}
-          <div className={`${showFilters ? 'block' : 'hidden'} lg:block w-64 flex-shrink-0`}>
+          {/* Filters Sidebar - always visible */}
+          <div className="w-64 flex-shrink-0">
             <div className="bg-white rounded-lg shadow-sm p-6 sticky top-4">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-semibold text-gray-900">Filters</h3>
@@ -319,11 +301,12 @@ const Products = () => {
                             <img
                               src={product.image_url || 'https://images.unsplash.com/photo-1540420773420-3366772f4999?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80'}
                               alt={product.name}
+                              onError={(e) => { e.target.onerror = null; e.target.src = 'https://images.unsplash.com/photo-1540420773420-3366772f4999?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80'; }}
                               className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                             />
                           </div>
                         </Link>
-                        
+
                         <div className="p-4">
                           <div className="flex items-start justify-between mb-2">
                             <div className="flex-1">
@@ -340,7 +323,7 @@ const Products = () => {
                               <span>{product.farmer_rating || '4.5'}</span>
                             </div>
                           </div>
-                          
+
                           <div className="flex items-center justify-between">
                             <div>
                               <p className="text-lg font-bold text-primary-600">
@@ -348,7 +331,7 @@ const Products = () => {
                               </p>
                               <p className="text-xs text-gray-500">per {product.unit}</p>
                             </div>
-                            
+
                             <button
                               onClick={() => handleAddToCart(product.id, product.name)}
                               disabled={product.quantity === 0}
@@ -368,11 +351,12 @@ const Products = () => {
                             <img
                               src={product.image_url || 'https://images.unsplash.com/photo-1540420773420-3366772f4999?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80'}
                               alt={product.name}
+                              onError={(e) => { e.target.onerror = null; e.target.src = 'https://images.unsplash.com/photo-1540420773420-3366772f4999?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80'; }}
                               className="w-full h-full object-cover"
                             />
                           </div>
                         </Link>
-                        
+
                         <div className="flex-1">
                           <div className="flex items-start justify-between">
                             <div>
@@ -387,13 +371,13 @@ const Products = () => {
                                 {product.description}
                               </p>
                             </div>
-                            
+
                             <div className="text-right">
                               <p className="text-lg font-bold text-primary-600">
                                 ₹{product.price}
                               </p>
                               <p className="text-xs text-gray-500">per {product.unit}</p>
-                              
+
                               <button
                                 onClick={() => handleAddToCart(product.id, product.name)}
                                 disabled={product.quantity === 0}
@@ -426,11 +410,11 @@ const Products = () => {
                 >
                   Previous
                 </button>
-                
+
                 <span className="px-4 py-2 text-sm text-gray-600">
                   Page {productsData.pagination.page} of {productsData.pagination.pages}
                 </span>
-                
+
                 <button
                   disabled={productsData.pagination.page >= productsData.pagination.pages}
                   onClick={() => {

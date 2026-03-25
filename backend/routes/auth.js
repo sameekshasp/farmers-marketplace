@@ -3,7 +3,7 @@ const { body } = require('express-validator');
 const router = express.Router();
 
 const { authenticateToken } = require('../middleware/auth');
-const { register, login, getProfile, updateProfile } = require('../controllers/authController');
+const { register, login, getProfile, updateProfile, forgotPassword, verifyOTP, resetPassword } = require('../controllers/authController');
 
 // Validation rules
 const registerValidation = [
@@ -24,9 +24,27 @@ const updateProfileValidation = [
   body('phone').optional().isMobilePhone().withMessage('Please provide a valid phone number')
 ];
 
+const forgotPasswordValidation = [
+  body('email').isEmail().normalizeEmail().withMessage('Please provide a valid email')
+];
+
+const verifyOTPValidation = [
+  body('email').isEmail().normalizeEmail().withMessage('Please provide a valid email'),
+  body('otp').notEmpty().withMessage('OTP is required')
+];
+
+const resetPasswordValidation = [
+  body('email').isEmail().normalizeEmail().withMessage('Please provide a valid email'),
+  body('otp').notEmpty().withMessage('OTP is required'),
+  body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long')
+];
+
 // Routes
 router.post('/register', registerValidation, register);
 router.post('/login', loginValidation, login);
+router.post('/forgot-password', forgotPasswordValidation, forgotPassword);
+router.post('/verify-otp', verifyOTPValidation, verifyOTP);
+router.post('/reset-password', resetPasswordValidation, resetPassword);
 router.get('/profile', authenticateToken, getProfile);
 router.put('/profile', authenticateToken, updateProfileValidation, updateProfile);
 

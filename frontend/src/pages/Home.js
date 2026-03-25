@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
 import { 
@@ -21,6 +21,7 @@ import { useCart } from '../context/CartContext';
 const Home = () => {
   const { t } = useTranslation();
   const { addToCart } = useCart();
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
 
   // Fetch featured products
@@ -35,23 +36,12 @@ const Home = () => {
     }
   );
 
-  // Fetch nearby farmers
-  const { data: nearbyFarmers, isLoading: farmersLoading } = useQuery(
-    'nearbyFarmers',
-    async () => {
-      const response = await fetch('/api/farmers?limit=6');
-      const data = await response.json();
-      return data.farmers;
-    },
-    {
-      staleTime: 10 * 60 * 1000, // 10 minutes
-    }
-  );
+
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      window.location.href = `/products?search=${encodeURIComponent(searchQuery.trim())}`;
+      navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
 
@@ -134,13 +124,6 @@ const Home = () => {
                   <span>Browse Products</span>
                   <ArrowRight className="h-5 w-5" />
                 </Link>
-                <Link
-                  to="/farmers"
-                  className="btn btn-outline text-lg px-6 py-3 flex items-center space-x-2"
-                >
-                  <span>Find Farmers</span>
-                  <MapPin className="h-5 w-5" />
-                </Link>
               </div>
             </div>
 
@@ -149,6 +132,7 @@ const Home = () => {
                 src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
                 alt="Fresh vegetables and fruits"
                 className="rounded-2xl shadow-2xl w-full h-auto"
+                loading="lazy"
               />
               <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-lg shadow-lg">
                 <div className="flex items-center space-x-3">
@@ -316,77 +300,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Nearby Farmers Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container">
-          <div className="flex justify-between items-center mb-12">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">
-                {t('home.nearbyFarmers')}
-              </h2>
-              <p className="text-lg text-gray-600">
-                Connect with local farmers in your area
-              </p>
-            </div>
-            <Link
-              to="/farmers"
-              className="flex items-center space-x-2 text-primary-600 hover:text-primary-700 font-medium"
-            >
-              <span>View All Farmers</span>
-              <ChevronRight className="h-5 w-5" />
-            </Link>
-          </div>
 
-          {farmersLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[...Array(3)].map((_, index) => (
-                <div key={index} className="bg-white rounded-lg p-6 animate-pulse">
-                  <div className="flex items-center space-x-4 mb-4">
-                    <div className="w-12 h-12 bg-gray-200 rounded-full"></div>
-                    <div className="flex-1">
-                      <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                      <div className="h-3 bg-gray-200 rounded w-3/4"></div>
-                    </div>
-                  </div>
-                  <div className="h-3 bg-gray-200 rounded mb-2"></div>
-                  <div className="h-3 bg-gray-200 rounded w-5/6"></div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {nearbyFarmers?.slice(0, 6).map((farmer) => (
-                <div key={farmer.id} className="bg-white rounded-lg p-6 hover:shadow-lg transition-shadow">
-                  <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
-                      <Users className="h-6 w-6 text-primary-600" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900 mb-1">
-                        {farmer.farm_name || farmer.name}
-                      </h3>
-                      <p className="text-sm text-gray-600 flex items-center mb-2">
-                        <MapPin className="h-3 w-3 mr-1" />
-                        {farmer.location}
-                      </p>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-1 text-sm">
-                          <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                          <span>{farmer.rating || '4.5'}</span>
-                          <span className="text-gray-500">({farmer.total_reviews || 0})</span>
-                        </div>
-                        <span className="text-sm text-gray-500">
-                          {farmer.total_products || 0} products
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
     </div>
   );
 };

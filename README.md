@@ -36,9 +36,9 @@ A full-stack web application connecting local farmers directly with consumers, e
 - **Farmer Dashboard**: Manage products, orders, and view analytics
 
 ### Advanced Features
+- Secure Forgot Password flow with OTP via Email
 - JWT-based authentication with bcrypt password hashing
 - Cloudinary integration for image uploads
-- Geo-location filtering for nearby farmers
 - Seasonal crop calendar
 - Real-time order status updates
 - Responsive design for all devices
@@ -224,6 +224,14 @@ CLOUDINARY_API_SECRET=your_api_secret
 
 # Google Maps API (Optional)
 GOOGLE_MAPS_API_KEY=your_google_maps_api_key
+
+# SMTP Configuration (Required for Forgot Password OTP)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your_email@gmail.com
+SMTP_PASS=your_app_password
+SMTP_FROM="FarmersMarket" <your_email@gmail.com>
+OTP_EXPIRE_MINUTES=10
 ```
 
 **Generate JWT Secret:**
@@ -390,17 +398,18 @@ git remote add origin https://github.com/yourusername/farmersmarketplace.git
 git push -u origin main
 ```
 
-#### Step 3: Deploy Backend
+### Deploy Backend to Render
 
-1. Go to https://vercel.com/new
-2. Import your GitHub repository
-3. Configure:
-   - **Framework**: Other
+1. Go to https://render.com and sign up
+2. Click "New" -> "Web Service"
+3. Connect your GitHub repository
+4. Configure:
    - **Root Directory**: `backend`
-   - **Build Command**: (leave empty)
-   - **Output Directory**: (leave empty)
+   - **Environment**: Node
+   - **Build Command**: `npm install`
+   - **Start Command**: `node server.js`
 
-4. Add Environment Variables:
+5. Add Environment Variables (Advanced -> Environment Variables):
    ```
    DB_HOST=your_cloud_db_host
    DB_USER=your_db_user
@@ -413,11 +422,18 @@ git push -u origin main
    CLOUDINARY_CLOUD_NAME=your_cloud_name
    CLOUDINARY_API_KEY=your_api_key
    CLOUDINARY_API_SECRET=your_api_secret
+   SMTP_HOST=smtp.gmail.com
+   SMTP_PORT=587
+   SMTP_USER=your_email@gmail.com
+   SMTP_PASS=your_app_password
+   SMTP_FROM="FarmersMarket" <your_email@gmail.com>
+   OTP_EXPIRE_MINUTES=10
    ```
 
-5. Deploy
+6. Click "Create Web Service"
+7. Note your Render URL (e.g., `https://farmersmarket-backend.onrender.com`)
 
-#### Step 4: Deploy Frontend
+#### Step 4: Deploy Frontend to Vercel
 
 1. Go to https://vercel.com/new
 2. Import same repository
@@ -429,14 +445,14 @@ git push -u origin main
 
 4. Add Environment Variables:
    ```
-   REACT_APP_API_URL=https://your-backend.vercel.app/api
+   REACT_APP_API_URL=https://farmersmarket-backend.onrender.com/api
    ```
 
 5. Deploy
 
 #### Step 5: Update CORS
 
-Update `backend/server.js`:
+Update `backend/server.js` CORS settings before deploying:
 ```javascript
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 

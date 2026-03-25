@@ -43,22 +43,21 @@
 
 ---
 
-## Vercel Deployment Steps
+## Deployment Steps
 
-### Backend Deployment
+### Backend Deployment (Render)
 
-1. **Create Vercel Project**
-   - Go to https://vercel.com/new
-   - Import GitHub repository
+1. **Create Render Web Service**
+   - Go to https://render.com -> Dashboard -> New -> Web Service
+   - Connect your GitHub repository
    - Select `backend` as root directory
 
 2. **Configure Build Settings**
-   - Framework: Other
-   - Build Command: (leave empty)
-   - Output Directory: (leave empty)
-   - Install Command: `npm install`
+   - Environment: Node
+   - Build Command: `npm install`
+   - Start Command: `node server.js`
 
-3. **Add Environment Variables**
+3. **Add Environment Variables (Advanced -> Environment Variables)**
    ```
    DB_HOST=your_cloud_db_host
    DB_USER=your_db_user
@@ -71,18 +70,24 @@
    CLOUDINARY_CLOUD_NAME=your_cloud_name
    CLOUDINARY_API_KEY=your_api_key
    CLOUDINARY_API_SECRET=your_api_secret
+   SMTP_HOST=smtp.gmail.com
+   SMTP_PORT=587
+   SMTP_USER=your_email@gmail.com
+   SMTP_PASS=your_app_password
+   SMTP_FROM="FarmersMarket" <your_email@gmail.com>
+   OTP_EXPIRE_MINUTES=10
    ```
 
 4. **Deploy**
-   - Click "Deploy"
+   - Click "Create Web Service"
    - Wait for deployment to complete
-   - Note your backend URL: `https://your-backend.vercel.app`
+   - Note your backend URL: `https://your-backend.onrender.com`
 
 5. **Test Backend**
-   - Visit: `https://your-backend.vercel.app/api/health`
+   - Visit: `https://your-backend.onrender.com/api/health`
    - Should return: `{"status":"OK",...}`
 
-### Frontend Deployment
+### Frontend Deployment (Vercel)
 
 1. **Create Vercel Project**
    - Go to https://vercel.com/new
@@ -97,7 +102,7 @@
 
 3. **Add Environment Variables**
    ```
-   REACT_APP_API_URL=https://your-backend.vercel.app/api
+   REACT_APP_API_URL=https://your-backend.onrender.com/api
    ```
 
 4. **Deploy**
@@ -196,13 +201,21 @@ CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
 
+# SMTP (Required for Forgot Password OTP emails)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your_email@gmail.com
+SMTP_PASS=your_app_password
+SMTP_FROM="FarmersMarket" <your_email@gmail.com>
+OTP_EXPIRE_MINUTES=10
+
 # Optional
 GOOGLE_MAPS_API_KEY=your_google_maps_key
 ```
 
 ### Frontend Required Variables
 ```env
-REACT_APP_API_URL=https://your-backend.vercel.app/api
+REACT_APP_API_URL=https://your-backend.onrender.com/api
 ```
 
 ---

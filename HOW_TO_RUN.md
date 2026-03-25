@@ -51,7 +51,6 @@ Visit: **http://localhost:3000**
 
 ### Home Page
 - Featured products from farmers
-- Top-rated farmers
 - Seasonal crop calendar
 - Search functionality
 
@@ -130,6 +129,8 @@ taskkill /PID <PID> /F
    DB_USER=root
    DB_PASSWORD=your_password
    DB_NAME=farmers_marketplace
+   SMTP_USER=your_email@gmail.com
+   SMTP_PASS=your_app_password
    ```
 
 ### Issue: "No products showing"
@@ -207,11 +208,11 @@ Expected results after seeding:
 ### For Buyers:
 - ✅ Browse products by category
 - ✅ Search products
-- ✅ View farmer profiles
 - ✅ Add to cart
 - ✅ Place orders
 - ✅ Write reviews
 - ✅ Track orders
+- ✅ Secure Password Reset via OTP
 - ✅ Multi-language support
 
 ### For Farmers:
@@ -232,7 +233,6 @@ Expected results after seeding:
 ### Advanced Features:
 - ✅ QR code traceability
 - ✅ Seasonal crop calendar
-- ✅ Geo-location filtering
 - ✅ Product ratings
 - ✅ Order status tracking
 

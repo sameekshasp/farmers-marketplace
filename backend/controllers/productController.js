@@ -11,6 +11,7 @@ const getProducts = async (req, res) => {
       location, 
       farmerId,
       search,
+      sort,
       page = 1, 
       limit = 20 
     } = req.query;
@@ -66,7 +67,18 @@ const getProducts = async (req, res) => {
       return res.status(400).json({ message: 'Invalid pagination parameters' });
     }
     
-    query += ` ORDER BY p.created_at DESC LIMIT ${safeLimit} OFFSET ${safeOffset}`;
+    // Determine sort order
+    let orderBy;
+    switch (sort) {
+      case 'price-low':  orderBy = 'p.price ASC';          break;
+      case 'price-high': orderBy = 'p.price DESC';         break;
+      case 'rating':     orderBy = 'f.rating DESC';        break;
+      case 'oldest':     orderBy = 'p.created_at ASC';     break;
+      case 'newest':
+      default:           orderBy = 'p.created_at DESC';    break;
+    }
+
+    query += ` ORDER BY ${orderBy} LIMIT ${safeLimit} OFFSET ${safeOffset}`;
     
     console.log('Final query:', query);
     console.log('Params array:', params);

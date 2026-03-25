@@ -127,6 +127,9 @@ CLEANUP_GUIDE.md
 CLEANUP_SUMMARY.md
 PRE_COMMIT_CHECKLIST.md
 .github/CLEANUP_SUMMARY.md
+DEPLOYMEN.md
+GIT_SETUP.md
+HOW_TO_RUN.md
 
 # Cloudinary cache
 .cloudinary/

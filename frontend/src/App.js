@@ -25,6 +25,7 @@ import FarmerDashboard from './pages/FarmerDashboard';
 import Forum from './pages/Forum';
 import Traceability from './pages/Traceability';
 import NotFound from './pages/NotFound';
+import ForgotPassword from './pages/ForgotPassword';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -52,6 +53,7 @@ function App() {
                   <Route path="/products/:id" element={<ProductDetails />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
+                  <Route path="/forgot-password" element={<ForgotPassword />} />
                   <Route path="/forum" element={<Forum />} />
                   <Route path="/trace/:batchId" element={<Traceability />} />
 
