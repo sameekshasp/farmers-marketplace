@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { traceabilityAPI } from '../services/api';
 import {
   QrCode,
@@ -9,7 +8,6 @@ import {
   Package,
   CheckCircle,
   MapPin,
-  Calendar,
   User,
   ArrowLeft,
   Loader2,
@@ -20,28 +18,27 @@ import {
 import toast from 'react-hot-toast';
 
 const Traceability = () => {
-  const { t } = useTranslation();
   const { batchId } = useParams();
   const navigate = useNavigate();
   const [traceData, setTraceData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    const fetchTraceability = async () => {
+      try {
+        const response = await traceabilityAPI.get(`/${batchId}`);
+        setTraceData(response.data);
+      } catch (error) {
+        toast.error('Failed to load traceability data');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     if (batchId) {
       fetchTraceability();
     }
   }, [batchId]);
-
-  const fetchTraceability = async () => {
-    try {
-      const response = await traceabilityAPI.get(`/${batchId}`);
-      setTraceData(response.data);
-    } catch (error) {
-      toast.error('Failed to load traceability data');
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {

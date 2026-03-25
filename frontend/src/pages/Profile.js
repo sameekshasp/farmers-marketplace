@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { ordersAPI } from '../services/api';
@@ -11,15 +10,12 @@ import {
   Clock,
   CheckCircle,
   XCircle,
-  ChevronRight,
   Loader2,
-  LogOut,
-  Edit2
+  LogOut
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const Profile = () => {
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const [orders, setOrders] = useState([]);

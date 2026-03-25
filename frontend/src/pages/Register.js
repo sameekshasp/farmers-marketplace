@@ -9,7 +9,7 @@ const Register = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { register: registerUser, isAuthenticated, isLoading } = useAuth();
-  
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -20,7 +20,6 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
     watch,
-    setError,
   } = useForm();
 
   const password = watch('password');
@@ -97,11 +96,10 @@ const Register = () => {
               <button
                 type="button"
                 onClick={() => setSelectedRole('buyer')}
-                className={`p-4 rounded-lg border-2 transition-all ${
-                  selectedRole === 'buyer'
+                className={`p-4 rounded-lg border-2 transition-all ${selectedRole === 'buyer'
                     ? 'border-primary-500 bg-primary-50 text-primary-700'
                     : 'border-gray-200 hover:border-gray-300 text-gray-700'
-                }`}
+                  }`}
               >
                 <Users className="h-6 w-6 mx-auto mb-2" />
                 <p className="font-medium">Buyer</p>
@@ -110,11 +108,10 @@ const Register = () => {
               <button
                 type="button"
                 onClick={() => setSelectedRole('farmer')}
-                className={`p-4 rounded-lg border-2 transition-all ${
-                  selectedRole === 'farmer'
+                className={`p-4 rounded-lg border-2 transition-all ${selectedRole === 'farmer'
                     ? 'border-primary-500 bg-primary-50 text-primary-700'
                     : 'border-gray-200 hover:border-gray-300 text-gray-700'
-                }`}
+                  }`}
               >
                 <Leaf className="h-6 w-6 mx-auto mb-2" />
                 <p className="font-medium">Farmer</p>
