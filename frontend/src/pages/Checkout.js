@@ -70,7 +70,7 @@ const Checkout = () => {
         payment_method: formData.paymentMethod
       };
 
-      const response = await ordersAPI.post('/', orderData);
+      await ordersAPI.post('/', orderData);
       
       await clearCart();
       setOrderPlaced(true);

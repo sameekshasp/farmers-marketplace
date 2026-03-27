@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
-import { productsAPI, reviewsAPI } from '../services/api';
+import { productsAPI } from '../services/api';
 import {
   Star,
   MapPin,
@@ -23,7 +22,6 @@ import {
 import toast from 'react-hot-toast';
 
 const ProductDetails = () => {
-  const { t } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();

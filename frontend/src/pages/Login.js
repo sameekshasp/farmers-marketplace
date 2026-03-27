@@ -58,7 +58,7 @@ const Login = () => {
   const handleGoogleSignIn = async () => {
     setIsGoogleLoading(true);
     try {
-      const googleUserData = await signInWithGoogle();
+      await await signInWithGoogle();
       
       // For now, show message that Google auth needs backend support
       alert('Google authentication requires backend integration. Please use email/password login.\n\nDemo accounts:\nBuyer: buyer@example.com / buyer123\nFarmer: farmer1@example.com / farmer123');

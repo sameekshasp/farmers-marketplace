@@ -5,18 +5,13 @@ import { farmersAPI, productsAPI } from '../services/api';
 import {
   Package,
   TrendingUp,
-  Star,
-  Users,
   DollarSign,
   Plus,
-  Edit2,
   Trash2,
   Loader2,
   ArrowLeft,
   Sprout,
-  MapPin,
-  Phone
-} from 'lucide-react';
+  } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const FarmerDashboard = () => {

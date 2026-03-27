@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
 import {
   Search,
@@ -15,7 +14,6 @@ import { productsAPI } from '../services/api';
 import { useCart } from '../context/CartContext';
 
 const Products = () => {
-  const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   const { addToCart } = useCart();
 
