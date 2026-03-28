@@ -398,11 +398,74 @@ const cancelOrder = async (req, res) => {
   }
 };
 
+// Get all orders (admin only)
+const getAllOrders = async (req, res) => {
+  try {
+    const { page = 1, limit = 10, status } = req.query;
+
+    let query = `SELECT o.*, u.name as customer_name, u.email as customer_email, u.phone as customer_phone, 
+                  COUNT(oi.id) as item_count, 
+                  GROUP_CONCAT(DISTINCT p.name SEPARATOR ', ') as items_summary 
+                  FROM orders o JOIN users u ON o.user_id = u.id LEFT JOIN order_items oi ON o.id = oi.order_id LEFT JOIN products p ON oi.product_id = p.id`;
+
+    const params = [];
+
+    if (status) {
+      query += ' WHERE o.status = ?';
+      params.push(status);
+    }
+
+    query += ' GROUP BY o.id ORDER BY o.created_at DESC';
+
+    const parsedPage = Math.max(1, parseInt(page) || 1);
+    const parsedLimit = Math.max(1, parseInt(limit) || 10);
+    const offset = (parsedPage - 1) * parsedLimit;
+    
+    // Ensure values are valid integers for MySQL
+    const safeLimit = parseInt(parsedLimit);
+    const safeOffset = parseInt(offset);
+    
+    if (isNaN(safeLimit) || isNaN(safeOffset) || safeLimit < 1 || safeOffset < 0) {
+      return res.status(400).json({ message: 'Invalid pagination parameters' });
+    }
+    
+    query += ` LIMIT ${safeLimit} OFFSET ${safeOffset}`;
+
+    const [orders] = await pool.execute(query, params);
+
+    let countQuery = 'SELECT COUNT(id) as total FROM orders';
+    const countParams = [];
+
+    if (status) {
+      countQuery += ' WHERE status = ?';
+      countParams.push(status);
+    }
+
+    const [countResult] = await pool.execute(countQuery, countParams);
+    const total = countResult[0].total;
+
+    res.json({
+      orders,
+      pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total,
+        pages: Math.ceil(total / parseInt(limit))
+      }
+    });
+  } catch (error) {
+    console.error('Get all orders error:', error);
+    res.status(500).json({ message: 'Failed to get all orders' });
+  }
+};
+
 module.exports = {
   createOrder,
   getUserOrders,
   getOrderById,
   getFarmerOrders,
+  getAllOrders,
   updateOrderStatus,
   cancelOrder
 };
+

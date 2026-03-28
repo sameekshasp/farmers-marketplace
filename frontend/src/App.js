@@ -21,6 +21,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Orders from './pages/Orders';
+import OrderDetails from './pages/OrderDetails';
 import FarmerDashboard from './pages/FarmerDashboard';
 import Forum from './pages/Forum';
 import Traceability from './pages/Traceability';
@@ -83,10 +84,18 @@ function App() {
                     }
                   />
                   <Route
-                    path="/orders/:id"
+                    path="/orders"
                     element={
                       <ProtectedRoute>
                         <Orders />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/orders/:id"
+                    element={
+                      <ProtectedRoute>
+                        <OrderDetails />
                       </ProtectedRoute>
                     }
                   />

@@ -2,12 +2,13 @@ const express = require('express');
 const { body } = require('express-validator');
 const router = express.Router();
 
-const { authenticateToken, requireFarmer, requireBuyerOrFarmer } = require('../middleware/auth');
+const { authenticateToken, requireFarmer, requireBuyerOrFarmer, requireAdmin } = require('../middleware/auth');
 const {
   createOrder,
   getUserOrders,
   getOrderById,
   getFarmerOrders,
+  getAllOrders,
   updateOrderStatus,
   cancelOrder
 } = require('../controllers/orderController');
@@ -40,5 +41,8 @@ router.put('/user/:id/cancel', requireBuyerOrFarmer, cancelOrder);
 // Farmer routes
 router.get('/farmer', requireFarmer, getFarmerOrders);
 router.put('/:id/status', requireFarmer, updateStatusValidation, updateOrderStatus);
+
+// Admin routes
+router.get('/admin', requireAdmin, getAllOrders);
 
 module.exports = router;
