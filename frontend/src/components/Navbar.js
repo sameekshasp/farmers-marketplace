@@ -116,6 +116,15 @@ const Navbar = () => {
               {t('navigation.forum')}
             </Link>
 
+            {isAuthenticated && (
+              <Link
+                to="/orders"
+                className={`nav-link ${location.pathname === '/orders' ? 'active' : ''}`}
+              >
+                {t('navigation.orders')}
+              </Link>
+            )}
+
             {/* Language Selector */}
             <div className="relative language-dropdown">
               <button
@@ -266,6 +275,16 @@ const Navbar = () => {
               >
                 {t('navigation.forum')}
               </Link>
+              
+              {isAuthenticated && (
+                <Link
+                  to="/orders"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-primary-600 hover:bg-gray-50"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {t('navigation.orders')}
+                </Link>
+              )}
 
               <Link
                 to="/cart"

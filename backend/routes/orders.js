@@ -5,6 +5,8 @@ const router = express.Router();
 const { authenticateToken, requireFarmer, requireBuyerOrFarmer, requireAdmin } = require('../middleware/auth');
 const {
   createOrder,
+  createRazorpayOrder,
+  verifyPayment,
   getUserOrders,
   getOrderById,
   getFarmerOrders,
@@ -22,7 +24,7 @@ const createOrderValidation = [
   body('delivery_city').trim().notEmpty().withMessage('Delivery city is required'),
   body('delivery_state').trim().notEmpty().withMessage('Delivery state is required'),
   body('delivery_pincode').trim().matches(/^[0-9]{6}$/).withMessage('Invalid pincode format'),
-  body('payment_method').optional().isIn(['cod', 'online', 'upi']).withMessage('Invalid payment method')
+  body('payment_method').optional().isIn(['cod', 'online', 'upi', 'razorpay']).withMessage('Invalid payment method')
 ];
 
 const updateStatusValidation = [
@@ -32,8 +34,14 @@ const updateStatusValidation = [
 // All order routes require authentication
 router.use(authenticateToken);
 
-// Buyer routes
+// Create order routes (Buyer Or Farmer)
 router.post('/', requireBuyerOrFarmer, createOrderValidation, createOrder);
+
+// Checkout payment endpoints
+router.post('/payment/razorpay/create', requireBuyerOrFarmer, createRazorpayOrder);
+router.post('/payment/razorpay/verify', requireBuyerOrFarmer, verifyPayment);
+
+// User retrieval routes
 router.get('/user', requireBuyerOrFarmer, getUserOrders);
 router.get('/user/:id', requireBuyerOrFarmer, getOrderById);
 router.put('/user/:id/cancel', requireBuyerOrFarmer, cancelOrder);

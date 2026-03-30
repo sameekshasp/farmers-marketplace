@@ -131,6 +131,59 @@ const OrderDetails = () => {
           )}
         </div>
 
+        {/* Tracking Timeline */}
+        <div className="bg-white rounded-lg shadow-sm p-8 mb-6">
+          <h2 className="text-lg font-bold text-gray-900 mb-8 flex items-center">
+            <Truck className="h-5 w-5 mr-2 text-primary-600" /> Order Tracking
+          </h2>
+          <div className="relative flex items-center justify-between">
+            {/* Background Line */}
+            <div className="absolute top-1/2 left-0 w-full h-0.5 bg-gray-200 -translate-y-1/2"></div>
+            
+            {/* Steps */}
+            {[
+              { label: 'Placed', status: 'pending', icon: Package },
+              { label: 'Confirmed', status: 'confirmed', icon: CheckCircle },
+              { label: 'Shipped', status: 'shipped', icon: Truck },
+              { label: 'Delivered', status: 'delivered', icon: CheckCircle }
+            ].map((step, index, arr) => {
+              const orderStatuses = ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'];
+              const currentStatusIndex = orderStatuses.indexOf(order.status);
+              const stepStatusIndex = orderStatuses.indexOf(step.status);
+              
+              const isCompleted = currentStatusIndex >= stepStatusIndex && order.status !== 'cancelled';
+              const isCurrent = order.status === step.status;
+              const isCancelled = order.status === 'cancelled';
+
+              const Icon = step.icon;
+
+              return (
+                <div key={step.label} className="relative z-10 flex flex-col items-center">
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center border-4 ${
+                    isCancelled ? 'bg-gray-100 border-gray-200 text-gray-400' :
+                    isCompleted ? 'bg-primary-600 border-white text-white shadow-md' : 
+                    'bg-white border-gray-200 text-gray-400'
+                  }`}>
+                    <Icon className="w-5 h-5" />
+                  </div>
+                  <span className={`mt-2 text-xs font-bold uppercase tracking-wider ${
+                    isCancelled ? 'text-gray-400' :
+                    isCompleted ? 'text-primary-600' : 'text-gray-400'
+                  }`}>
+                    {step.label}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+          {order.status === 'cancelled' && (
+             <div className="mt-8 p-4 bg-red-50 border border-red-100 rounded-lg flex items-center text-red-700">
+                <XCircle className="h-5 w-5 mr-3" />
+                <span className="font-semibold">This order has been cancelled.</span>
+             </div>
+          )}
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
             <div className="bg-white rounded-lg shadow-sm p-6">
