@@ -23,6 +23,8 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     phone VARCHAR(20),
     role ENUM('buyer', 'farmer', 'admin') NOT NULL DEFAULT 'buyer',
+    reset_otp VARCHAR(6) DEFAULT NULL,
+    reset_otp_expiry DATETIME DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     INDEX idx_email (email),
@@ -218,7 +220,7 @@ INSERT INTO seasonal_calendar (crop_name, start_month, end_month, region, descri
 ('Orange', 11, 2, 'Central India', 'Winter citrus season'),
 ('Cabbage', 10, 3, 'North India', 'Winter vegetable crop');
 
--- Create admin user (password: admin123)
-INSERT INTO users (name, email, password, role) VALUES
-('Admin User', 'admin@farmersmarket.com', '$2a$10$YourHashedPasswordHere', 'admin');
+-- NOTE: Run `npm run seed` from the backend folder after applying this schema
+-- to create the admin account and seed all products.
+-- Admin credentials: ashwithashettigar628@gmail.com / Ashwitha@628
 

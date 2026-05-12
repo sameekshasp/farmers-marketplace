@@ -23,6 +23,7 @@ import Profile from './pages/Profile';
 import Orders from './pages/Orders';
 import OrderDetails from './pages/OrderDetails';
 import FarmerDashboard from './pages/FarmerDashboard';
+import AdminDashboard from './pages/AdminDashboard';
 import Forum from './pages/Forum';
 import Traceability from './pages/Traceability';
 import NotFound from './pages/NotFound';
@@ -104,6 +105,14 @@ function App() {
                     element={
                       <ProtectedRoute requiredRole="farmer">
                         <FarmerDashboard />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/admin/dashboard"
+                    element={
+                      <ProtectedRoute requiredRole="admin">
+                        <AdminDashboard />
                       </ProtectedRoute>
                     }
                   />

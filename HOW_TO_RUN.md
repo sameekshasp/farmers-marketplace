@@ -17,11 +17,10 @@ npm run seed --prefix backend
 ```
 
 This creates:
-- ✅ 5 Farmers with profiles
-- ✅ 15 Products with images
+- ✅ 7 Farmers with profiles
+- ✅ 36 Products (Vegetables, Fruits, Lettuce, Seeds, Fibre & Protein)
 - ✅ 8 Forum posts with comments
-- ✅ 5 Product reviews
-- ✅ Sample users (admin, buyers, farmers)
+- ✅ 1 Admin account
 
 ### Step 3: Open Your Browser
 Visit: **http://localhost:3000**
@@ -31,17 +30,12 @@ Visit: **http://localhost:3000**
 ## 🔐 Login Credentials
 
 ### Admin Account
-- **Email:** admin@farmersmarket.com
-- **Password:** admin123
-- **Access:** Full system access, user management
-
-### Buyer Account
-- **Email:** buyer@example.com
-- **Password:** buyer123
-- **Access:** Browse products, place orders, write reviews
+- **Email:** ashwithashettigar628@gmail.com
+- **Password:** Ashwitha@628
+- **Access:** Full system access, admin dashboard with product analytics
 
 ### Farmer Account
-- **Email:** farmer1@example.com
+- **Email:** farmer1@farmersmarket.com
 - **Password:** farmer123
 - **Access:** Farmer dashboard, manage products, view orders
 
@@ -163,9 +157,9 @@ SELECT COUNT(*) as total_posts FROM posts;
 ```
 
 Expected results after seeding:
-- Users: 9 (1 admin + 3 buyers + 5 farmers)
-- Farmers: 5
-- Products: 15
+- Users: 8 (1 admin + 7 farmers)
+- Farmers: 7
+- Products: 36
 - Posts: 8
 
 ---
@@ -180,11 +174,18 @@ Expected results after seeding:
 5. Write a product review
 
 ### Test as Farmer:
-1. Login with: farmer1@example.com / farmer123
+1. Login with: farmer1@farmersmarket.com / farmer123
 2. Go to Farmer Dashboard
 3. View your products
 4. Add a new product
 5. Check orders
+
+### Test as Admin:
+1. Login with: ashwithashettigar628@gmail.com / Ashwitha@628
+2. Go to Admin Dashboard (from navbar dropdown)
+3. View product analytics by category
+4. Check sold/unsold products
+5. View order statistics
 
 ### Test Forum:
 1. Go to Community Forum

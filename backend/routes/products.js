@@ -20,7 +20,7 @@ const addProductValidation = [
   body('description').optional().trim().isLength({ max: 1000 }).withMessage('Description must not exceed 1000 characters'),
   body('price').isFloat({ min: 0 }).withMessage('Price must be a positive number'),
   body('quantity').isInt({ min: 0 }).withMessage('Quantity must be a non-negative integer'),
-  body('unit').optional().isIn(['kg', 'g', 'pcs', 'liters', 'ml', 'dozen']).withMessage('Invalid unit'),
+  body('unit').optional().isIn(['kg', 'g', 'pcs', 'liters', 'ml', 'dozen', 'piece', 'liter']).withMessage('Invalid unit'),
   body('harvest_date').optional().isISO8601().withMessage('Invalid harvest date format')
 ];
 
@@ -30,17 +30,21 @@ const updateProductValidation = [
   body('description').optional().trim().isLength({ max: 1000 }).withMessage('Description must not exceed 1000 characters'),
   body('price').optional().isFloat({ min: 0 }).withMessage('Price must be a positive number'),
   body('quantity').optional().isInt({ min: 0 }).withMessage('Quantity must be a non-negative integer'),
-  body('unit').optional().isIn(['kg', 'g', 'pcs', 'liters', 'ml', 'dozen']).withMessage('Invalid unit'),
+  body('unit').optional().isIn(['kg', 'g', 'pcs', 'liters', 'ml', 'dozen', 'piece', 'liter']).withMessage('Invalid unit'),
   body('is_available').optional().isBoolean().withMessage('is_available must be a boolean')
 ];
 
 // Public routes
 router.get('/', getProducts);
 router.get('/categories', getCategories);
+
+// Farmer routes — MUST be before /:id to avoid 'farmer' being matched as :id
+router.get('/farmer/my-products', authenticateToken, requireFarmer, getFarmerProducts);
+
+// Public single product route
 router.get('/:id', getProductById);
 
-// Farmer routes
-router.get('/farmer/my-products', authenticateToken, requireFarmer, getFarmerProducts);
+// Farmer mutation routes
 router.post('/', authenticateToken, requireFarmer, addProductValidation, addProduct);
 router.put('/:id', authenticateToken, requireFarmer, updateProductValidation, updateProduct);
 router.delete('/:id', authenticateToken, requireFarmer, deleteProduct);

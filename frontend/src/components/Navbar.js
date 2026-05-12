@@ -18,7 +18,7 @@ const Navbar = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, isAuthenticated, logout, isFarmer } = useAuth();
+  const { user, isAuthenticated, logout, isFarmer, isAdmin } = useAuth();
   const { getTotalItems } = useCart();
   
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -194,6 +194,16 @@ const Navbar = () => {
                       </Link>
                     )}
                     
+                    {isAdmin() && (
+                      <Link
+                        to="/admin/dashboard"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => setIsProfileOpen(false)}
+                      >
+                        Admin Dashboard
+                      </Link>
+                    )}
+                    
                     <Link
                       to="/orders"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -311,6 +321,16 @@ const Navbar = () => {
                       onClick={() => setIsMenuOpen(false)}
                     >
                       {t('navigation.dashboard')}
+                    </Link>
+                  )}
+                  
+                  {isAdmin() && (
+                    <Link
+                      to="/admin/dashboard"
+                      className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-primary-600 hover:bg-gray-50"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Admin Dashboard
                     </Link>
                   )}
                   
